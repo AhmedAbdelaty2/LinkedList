@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1638276875 source:d:\iti\labs\data structure and algorithm\lab1\bin\linkedlist\main.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<conio.h>
+
