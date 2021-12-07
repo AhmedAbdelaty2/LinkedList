@@ -22,9 +22,9 @@ struct Student Fill(void);
 
 void printScreen(void);
 
-struct Node *creatNode(void);
-int addNode (void);
-int insertNode (int loc);
+struct Node *creatNode(struct Student s);
+int addNode (struct Student s);
+int insertNode (struct Student s, int loc);
 struct Student searchNodeID(int id);
 struct Student searchNodeName(char Name[]);
 int deletNode(int loc);
@@ -49,16 +49,16 @@ int main()
         {
         case '1':
             {
-                //s = Fill();
-                ret = addNode();
+                s = Fill();
+                ret = addNode(s);
                 break;
             }
         case '2':
             {
                 printf("Please, enter the location: ");
                 scanf("%d",&loc);
-                //s = Fill();
-                ret = insertNode(loc);
+                s = Fill();
+                ret = insertNode(s, loc);
                 if(ret==0)
                     printf("the student has not been added");
                 else
@@ -159,15 +159,13 @@ void printScreen(void)
     printf("8- exit\n");
 }
 
-struct Node *creatNode(void)
+struct Node *creatNode(struct Student s)
 {
     struct Node *ptr;
-    struct Student s;
     ptr = (struct Node*)malloc(sizeof(struct Node));
 
     if(ptr)
     {
-        s = Fill();
         ptr->S = s;
         ptr->pPrev = NULL;
         ptr->pNext = NULL;
@@ -175,11 +173,11 @@ struct Node *creatNode(void)
     return ptr;
 }
 
-int addNode(void)
+int addNode(struct Student s)
 {
     int retval=0;
     struct Node *ptr;
-    ptr = creatNode();
+    ptr = creatNode(s);
 
     if(ptr)
     {
@@ -263,13 +261,13 @@ void showList(void)
     }
 }
 
-int insertNode(int loc)
+int insertNode(struct Student s, int loc)
 {
     int retval=0;
     int i;
     struct Node *ptr, *pcur;
 
-    ptr = creatNode();
+    ptr = creatNode(s);
 
     if(ptr)
     {
@@ -319,10 +317,7 @@ int deletNode(int loc)
     int i;
     struct Node *pcur;
 
-    if(!pHead)
-        return retval;
-
-    else
+    if(pHead)
     {
         pcur = pHead;
 
@@ -338,19 +333,15 @@ int deletNode(int loc)
                 pcur->pNext->pPrev = NULL;
                 free(pcur);
             }
-            retval = 1;
 
-            return retval;
+            retval = 1;
         }
         else
         {
             for(i=0;i<(loc)&&(pcur);i++)
                 pcur = pcur->pNext;
 
-            if(pcur==NULL)
-                return retval;
-
-            else if(pcur==pTail)
+            if(pcur==pTail)
             {
                 pTail = pcur->pPrev;
                 pcur->pPrev->pNext = NULL;
@@ -361,17 +352,16 @@ int deletNode(int loc)
                 return retval;
             }
 
-            else
+            else if(pcur)
             {
                 pcur->pNext->pPrev = pcur->pPrev;
                 pcur->pPrev->pNext = pcur->pNext;
                 free(pcur);
 
                 retval = 1;
-
-                return retval;
             }
         }
     }
 
+    return retval;
 }
