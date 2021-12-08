@@ -348,8 +348,6 @@ int deletNode(int loc)
                 free(pcur);
 
                 retval = 1;
-
-                return retval;
             }
 
             else if(pcur)
